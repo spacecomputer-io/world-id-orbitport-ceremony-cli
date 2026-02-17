@@ -20,7 +20,7 @@ program
   .description(
     "Orchestrate the Worldcoin trusted setup ceremony with Orbitport cosmic entropy",
   )
-  .version("1.0.0")
+  .version("1.1.0")
   .option("-c, --ceremony <string>", "ceremony prefix", "world-id-protocol")
   .option(
     "-e, --entropy <string>",
@@ -33,7 +33,7 @@ program
   )
   .option(
     "--skip-orbitport",
-    "skip Orbitport entropy even if credentials are available",
+    "skip Orbitport cTRNG, use local entropy only",
     false,
   )
   .action(async (options) => {
@@ -56,6 +56,14 @@ program
 
     // Step 3: Contribute
     await contribute(options.ceremony, entropy);
+
+    // Summary
+    console.log("\n╔══════════════════════════════════════════════════════════╗");
+    console.log("║  Session Summary                                         ║");
+    console.log("╚══════════════════════════════════════════════════════════╝");
+    console.log(`  Ceremony: ${options.ceremony}`);
+    console.log(`  Entropy:  ${entropy}`);
+    console.log();
   });
 
 program.parse();
